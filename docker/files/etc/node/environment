@@ -1,0 +1,2 @@
+GIT_REPO=https://git.github.com/steigr/coreos-node
+WRAPPER=/bin/toolbox-wrapper

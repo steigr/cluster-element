@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export TOOLBOX_DOCKER_IMAGE=steigr/coreos-toolbox
+export TOOLBOX_DOCKER_TAG=latest
+export TOOLBOX_USER=root
+export DOCKER_HOST=unix:///run/early-docker.sock
+TOOLBOX="toolbox --bind=/home:/home --bind=/opt:/opt --bind=/run/early-docker.sock:/run/early-docker.sock --bind=/run/docker.sock:/run/docker.sock --bind=/run/docker.sock:/var/run/docker.sock"
+$TOOLBOX node install /opt/lib/node
+$TOOLBOX node link modules
