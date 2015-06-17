@@ -1,2 +1,0 @@
-#!/bin/bash
-toolbox --bind=/home:/home --bind=/opt:/opt $(basename $0) "$@"
