@@ -13,7 +13,7 @@ class Installer
   end
 end
 
-Installer.new.install(%w{git docker ruby-dev bash}).gems(%w{foreman thor})
+Installer.new.install(%w{git docker ruby-dev bash rsync}).gems(%w{foreman thor pry})
 
 $LOAD_PATH << "/usr/lib"
 require "cluster-element/cli"
