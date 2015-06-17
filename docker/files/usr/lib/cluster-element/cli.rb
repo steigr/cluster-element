@@ -8,7 +8,7 @@ module ClusterElement
     def update
       t=SecureRandom.hex(8)
       repo="https://github.com/steigr/cluster-element.git"
-      puts `git clone #{repo} #{t}; rsync -r #{t}/docker/files /; rm -rf #{t}`.strip
+      puts `git clone #{repo} #{t}; rsync -rv #{t}/docker/files/ /; rm -rf #{t}`.strip
     end
     desc "cmd","Command Management"
     def cmd
