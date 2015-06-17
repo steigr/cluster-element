@@ -22,7 +22,91 @@ module ClusterElement
       {
         packages: {
           gems: %w{toml-rb pry thor awesome_print},
-          apks: %w{git docker bash ruby-dev rsync}
+          apks: %w{git docker bash ruby-dev rsync},
+        },
+        serf: {
+          cluster: "cluster",
+          query_timeout: "5s",
+          initial_tags: {
+            coreos: "true",
+          }
+        },
+        etcd: {
+          discovery: nil,
+          peer_urls: %w{%private_ipv4:2380},
+          client_urls: %w{%localhost:2379 %localhost:4001 %private_ipv4:2379}
+        },
+        fleet: {
+          metadata: %w{cetk=true}
+        },
+        locksmith:{
+          endpoint:"%self",
+        },
+        update:{
+          reboot_strategy: "etcd-lock",
+          server: "%self",
+          group: "%serf"
+        },
+        flannel: {
+          etcd_endpoints: %w{%self},
+          etcd_prefix: "/cetk/flannel/network/config",
+          interface: "%private_ipv4",
+          network: "10.10.0.0/16",
+          subnet_len: 24,
+          subnet_min: nil,
+          subnet_max: nil,
+          backend: {
+            type: :vxlan,
+            vni: 1,
+          }
+        },
+        ssh: {
+          port: 2220,
+        },
+        docker: {
+          tcp: 4375,
+        },
+        bee: {
+          image: "swarm",
+          announce: "%private_ipv4:4375"
+        },
+        swarm: {
+          token: "etcd://%self/cetk/swarm/nodes",
+          image: "swarm",
+          port: 2375
+        },
+        interlock:{
+          swarm: "%localhost:2375",
+          plugin: "nginx",
+          ports: %w{%public_ipv4:80 %public_ipv4:443},
+          ssl: {
+            dir: "/ssl"
+          }
+        },
+        registry: {
+          image: "registry:2",
+          hostname: "registry.%serf",
+        },
+        ssl: {
+          ca: %w{ca.%serf},
+          certificates: %w{registry.%serf interlock.%serf}
+        },
+        zookeeper: {
+          data_dir: "/var/lib/zookeeper",
+          expose: {
+            etcd: "%localhost/cetk/zookeeper/nodes"
+          }
+        },
+        dokku: {
+          authorized_keys: {
+            file: "/home/core/.ssh/authorized_keys",
+            etcd: "etcd://%localhost/cetk/dokku/ssh/authorized_keys"
+          }
+        },
+        router: {
+          dokku: {
+            public: 22
+          }
         }
       }
     end

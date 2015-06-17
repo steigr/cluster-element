@@ -1,6 +1,6 @@
 module ClusterElement
   class Config
-    class Cli < Thor
+    class Config < Thor
       desc "show","print the configuration"
       def show
         ap ClusterElement::Config.dump
@@ -11,5 +11,5 @@ module ClusterElement
       end
     end
   end
-  Cli.register Config::Cli, "config","config [COMMAND]","Toolkit Configuration"
+  Cli.register Config::Config, "config","config [COMMAND]","Toolkit Configuration"
 end

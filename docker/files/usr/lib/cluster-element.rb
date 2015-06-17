@@ -6,7 +6,7 @@ require "awesome_print"
 require "cluster-element/config"
 require "cluster-element/cli"
 begin
-  require "cluster-element/config/cli"
+  require "cluster-element/config/config"
   require "cluster-element/serf"
   require "cluster-element/etcd"
   require "cluster-element/fleet"
