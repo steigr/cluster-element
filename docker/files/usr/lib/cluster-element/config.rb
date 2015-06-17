@@ -1,4 +1,5 @@
 require "installer"
+require "fileutils"
 Installer::Package::Gem.new("toml-rb").install
 require "toml"
 
@@ -15,18 +16,30 @@ module ClusterElement
     end
     def initialize
       @config ||= load 
-      @config ||= {
+      @config ||= reset
+    end
+    def reset
+      {
         packages: {
-          gems: %w{toml-rb pry thor},
+          gems: %w{toml-rb pry thor awesome_print},
           apks: %w{git docker bash ruby-dev rsync}
         }
       }
     end
-    private
-    def load
-
+    def store config=nil
+      config ||= @config
+      FileUtils.mkdir_p(File.basename(cfg_file))
+      File.write(cfg_file,TOML.parse(config))
     end
-    def store
+    def load
+      TOML.load_file(cfg_file,symbolize_keys: true) if File.exists?(cfg_file)
+    end
+    def dump
+      @config
+    end
+    private
+    def cfg_file
+      "/etc/cetk/config.tml"
     end
     def gems
       @config[:packages][:gems].collect{|name| Installer::Package::Gem.new name}

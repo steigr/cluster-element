@@ -1,6 +1,7 @@
 require "thor"
 require "securerandom"
 require "fileutils"
+require "awesome_print"
 
 require "cluster-element/config"
 require "cluster-element/cli"
