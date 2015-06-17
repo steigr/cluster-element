@@ -4,5 +4,5 @@ module ClusterElement
     def cloudinit
     end
   end
-  Cli.register Fleet, 'fleet','fleet <command>','Fleet Cluster Scheduler'
+  Cli.register Fleet, 'fleet','fleet [COMMAND]','Fleet Cluster Scheduler'
 end

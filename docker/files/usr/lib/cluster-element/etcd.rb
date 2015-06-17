@@ -4,5 +4,5 @@ module ClusterElement
     def cloudinit
     end
   end
-  Cli.register Etcd, 'etcd','etcd <command>','Etcd DKV-Store'
+  Cli.register Etcd, 'etcd','etcd [COMMAND]','Etcd DKV-Store'
 end

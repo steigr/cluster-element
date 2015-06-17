@@ -4,5 +4,5 @@ module ClusterElement
     def service
     end
   end
-  Cli.register Serf, 'serf','serf <command>','Serf Cluster Discovery'
+  Cli.register Serf, 'serf','serf [COMMAND]','Serf Cluster Discovery'
 end
