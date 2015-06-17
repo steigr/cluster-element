@@ -32,6 +32,9 @@ module ClusterElement
           }
         },
         etcd: {
+          master: "/cetk/etcd/master",
+          sizes: (0..4).collect{|x|x*2+1},
+          ballot_size: 2,
           discovery: nil,
           peer_urls: %w{%private_ipv4:2380},
           client_urls: %w{%localhost:2379 %localhost:4001 %private_ipv4:2379}
@@ -92,21 +95,51 @@ module ClusterElement
           certificates: %w{registry.%serf interlock.%serf}
         },
         zookeeper: {
+          master: "/cetk/zookeeper/master",
+          sizes: (0..4).collect{|x|x*2+1},
           data_dir: "/var/lib/zookeeper",
           expose: {
             etcd: "%localhost/cetk/zookeeper/nodes"
           }
         },
         dokku: {
+          sizes: (1..3).to_a,
           authorized_keys: {
             file: "/home/core/.ssh/authorized_keys",
             etcd: "etcd://%localhost/cetk/dokku/ssh/authorized_keys"
+          },
+          nerve: {
+            zk_hosts: "%localhost:2181",
+            zk_path: "/cetk/dokku/ssh/services",
           }
         },
         router: {
           dokku: {
-            public: 22
+            image: "steigr/dokku",
+            public: 22,
+            synapse: {
+              zk_hosts: "%localhost:2181",
+              zk_path: "/cetk/dokku/ssh/services",
+            }
           }
+        },
+        postgres: {
+          image: "steigr/postgres",
+          nerve: {
+            zk_hosts: "%localhost:2181",
+            zk_path: "/cetk/postgres/postgres/services",
+          }
+        },
+        pgpool2: {
+          image: "steigr/pgpool2",
+          synapse: {
+            zk_hosts: "%localhost:2181",
+            zk_path: "/cetk/postgres/postgres/services",
+          },
+          nerve: {
+            zk_hosts: "%localhost:2181",
+            zk_path: "/cetk/pgpool2/pgpool2/services",
+          },
         }
       }
     end
