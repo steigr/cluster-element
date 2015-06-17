@@ -14,5 +14,14 @@ module ClusterElement
     def cmd
       puts "Doing cmd stuff"
     end
+    desc "serf","Serf Cluster Discovery"
+    def serf
+    end
+    desc "etcd","Etcd Key-Value-Store"
+    def etcd
+    end
+    desc "fleet","Fleet CoreOS Cluster Scheduler"
+    def fleet
+    end
   end
 end
