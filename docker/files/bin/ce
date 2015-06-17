@@ -1,20 +1,9 @@
 #!/usr/bin/env ruby
 
-class Installer
-  def install names
-    names = names.collect{|name| name unless `apk info` =~ /^#{name}$/ }.join(" ").strip
-    ( puts "APK: #{names}"; `apk add --update #{names}` ) unless names.empty?
-    self
-  end
-  def gems names
-    names = names.collect{|name| name if `gem list -q #{name}`.strip.empty? }.join(" ").strip
-    ( puts "GEM: #{names}"; `gem update --system --no-ri --no-rdoc; gem install --no-ri --no-rdoc #{names}` ) unless names.empty?
-    self
-  end
-end
-
-Installer.new.install(%w{git docker ruby-dev bash rsync}).gems(%w{foreman thor pry})
-
 $LOAD_PATH << "/usr/lib"
-require "cluster-element/cli"
+require "installer"
+require "cluster-element"
+
+ClusterElement::Config.gems.map{|g|g.install}
+ClusterElement::Config.apks.map{|a|a.install}
 ClusterElement::Cli.start

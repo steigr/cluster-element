@@ -1,7 +1,3 @@
-require "thor"
-require "securerandom"
-require "fileutils"
-
 module ClusterElement
   class Cli < Thor
     desc "update","Update Cluster Toolkit from Github"
@@ -23,5 +19,12 @@ module ClusterElement
     desc "fleet","Fleet CoreOS Cluster Scheduler"
     def fleet
     end
+    desc "start","Start Cluster Element Services"
+    def start
+    end
+    desc "stop","Stop Cluster Element Services"
+    def stop
+    end
   end
 end
+
