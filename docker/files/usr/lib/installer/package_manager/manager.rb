@@ -2,6 +2,7 @@ class Installer
   module PackageManager
     class Manager
       class << self
+        attr_accessor :package
         private
         def method_missing method, *args, &block
           instance.send method, *args, &block
@@ -10,16 +11,12 @@ class Installer
           @instance ||= self.new
         end
       end
-      def package= package
-        @package = package
-      end
-      def package name
-        @package.new name
+      def package
+        self.class.package
       end
       def install name
-        return if is_installed? name
+        update
         install_package name
-        self.class.package name
       end
     end
   end

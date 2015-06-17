@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
-
 $LOAD_PATH << File.expand_path("$0/../usr/lib")
-
-require "cluster-element"
-require "installer"
-
+require "cluster-element/config"
 ClusterElement::Config.gems.map{|p|p.install}
 ClusterElement::Config.apks.map{|p|p.install}
+
+require "installer"
+require "cluster-element"
 ClusterElement::Cli.start

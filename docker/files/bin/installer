@@ -1,12 +1,11 @@
 #!/bin/sh
-
-PN=CEtk
-EP=/var/lib/ce
-EL=/opt/bin/cel
-Load() {
-echo "$1 $PN"
-D=docker
 N=/dev/null
+BN=$(basename $0)
+EL=/opt/bin/$BN
+EP=/var/lib/$BN
+Load() {
+echo "$1 $BN"
+D=docker
 export DOCKER_HOST=unix:///run/early-$D.sock
 IM=steigr/cluster-element
 $D pull $IM >$N
@@ -18,15 +17,12 @@ $D rm $ID >$N
 $D rmi $IM >$N
 }
 Install() {
-echo "$1 $PN"
-cat <<EOLD > $EL
+echo "$1 $BN"
+cat <<EOLD > $0
 #!/bin/bash
 systemd-nspawn --directory=$EP --capability=all --share-system --user=root --quiet --bind=/home:/home --bind=/opt:/opt --bind=/run:/run --bind=/run:/var/run --bind=/etc/systemd:/etc/systemd \$(basename \$0) "\$@"
 EOLD
-chmod +x $EL
-rm $0
-ln $EL $0
 $EL cmd link
 }
 [[ -d "$EP" ]] || Load Load
-[[ -x "$EL" ]] || Install Install
+Install Install

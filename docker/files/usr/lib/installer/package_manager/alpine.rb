@@ -4,17 +4,18 @@ require "installer/package/apk"
 class Installer
   module PackageManager
     class Alpine < Manager
-      package = Installer::Package::Apk
-      package.installer = self
+      self.package = Installer::Package::Apk
+      self.package.installer = self
       def install_package name
-        update unless @up_to_date
-        `apk add #{name}`.strip
+        `apk add #{name}`.strip  unless is_installed? name
+        package.new name
       end
       def is_installed? name
         `apk info` =~ /^#{name}$/
       end
       private
       def update
+        return if @up_to_date
         `apk update`.strip
         @up_to_date = true
       end
