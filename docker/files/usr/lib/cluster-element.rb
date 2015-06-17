@@ -5,6 +5,7 @@ require "fileutils"
 require "cluster-element/config"
 require "cluster-element/cli"
 begin
+  require "cluster-element/config/cli"
   require "cluster-element/serf"
   require "cluster-element/etcd"
   require "cluster-element/fleet"
