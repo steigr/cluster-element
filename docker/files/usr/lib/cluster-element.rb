@@ -2,6 +2,7 @@ require "thor"
 require "securerandom"
 require "fileutils"
 
+require "cluster-element/config"
 require "cluster-element/cli"
 require "cluster-element/serf"
 require "cluster-element/etcd"
