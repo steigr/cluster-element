@@ -1,5 +1,3 @@
-require "thor"
-
 module ClusterElement
   class Etcd < Thor
     desc "cloudinit","Build Cloud-Init Drop-In"

@@ -4,6 +4,10 @@ require "fileutils"
 
 require "cluster-element/config"
 require "cluster-element/cli"
-require "cluster-element/serf"
-require "cluster-element/etcd"
-require "cluster-element/fleet"
+begin
+  require "cluster-element/serf"
+  require "cluster-element/etcd"
+  require "cluster-element/fleet"
+rescue
+  puts "Subcommands cannot be loaded, run 'cetk update' to fix this issue"
+end
