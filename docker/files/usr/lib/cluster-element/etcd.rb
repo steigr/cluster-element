@@ -51,9 +51,9 @@ module ClusterElement
       @token = @token.strip
     end
     def cluster_token
-      response = JSON.parse(`/opt/bin/serf query -format=json etcd-discover-token`,symbolize_names:true)
-      return if response[:Responses].empty?
-      token = response[:Responses].to_a.first.last
+      response = JSON.parse(`/opt/bin/serf query -format=json etcd-discover-token`,symbolize_names:true)[:Responses]
+      return if response.empty?
+      token = response.to_a.first.last.strip
       return if token.empty?
       write_token token
       token
