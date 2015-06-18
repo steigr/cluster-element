@@ -34,8 +34,8 @@ module ClusterElement
         Environment="ETCD_DISCOVERY=#{token}"
         Environment="ETCD_ADVERTISE_CLIENT_URLS=#{etcd_client_url},http://127.0.0.1:2379"
         Environment="ETCD_INITIAL_ADVERTISE_PEER_URLS=#{etcd_peer_url}"
-        Environment="ETCD_LISTEN_CLIENT_URLS=#{etcd_client_url},http://127.0.0.1:2379,http://#{private_ipv4}:4001,http://127.0.0.1:4001"
-        Environment="ETCD_LISTEN_PEER_URLS=#{etcd_client_url},http://127.0.0.1:2380"
+        Environment="ETCD_LISTEN_CLIENT_URLS=#{etcd_client_url},http://127.0.0.1:2379"
+        Environment="ETCD_LISTEN_PEER_URLS=#{etcd_peer_url},http://127.0.0.1:2380"
       EO_ETCD_DROPIN
       if output
         FileUtils.mkdir_p File.dirname output
