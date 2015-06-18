@@ -9,7 +9,7 @@ module ClusterElement
       end
       desc "diverged","Provide Hostname based on static values"
       def diverged
-        Digest::MD5.hexdigest(Macaddr.addr)[0..15]
+        puts Digest::MD5.hexdigest(Macaddr.addr)[0..15]
       end
     end
     ClusterElement::Cli.register Machine, "machine","machine [COMMAND]","Machine Information"
