@@ -185,11 +185,11 @@ module ClusterElement
     end
     def var_of var
       case var
-      when "%localhost" then "127.0.0.1"
+      when "%localhost"    then ClusterElement::Network.localhost
       when "%private_ipv4" then ClusterElement::Network.private_ipv4
       when "%public_ipv4"  then ClusterElement::Network.public_ipv4
       when "%etcd_self"    then "127.0.0.1:2379"
-      when "%cluster"      then @configp[:serf][:discover]
+      when "%cluster"      then @config[:serf][:discover]
       else var
       end
     end
