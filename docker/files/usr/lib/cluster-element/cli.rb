@@ -13,3 +13,4 @@ module ClusterElement
   end
 end
 
+ClusterElement::Cli.register ClusterElement::Config::Config, "config","config [COMMAND]","Toolkit Configuration"

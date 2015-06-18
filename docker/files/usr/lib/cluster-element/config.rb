@@ -1,10 +1,24 @@
 require "installer"
 require "fileutils"
 Installer::Package::Gem.new("toml-rb").install
+Installer::Package::Gem.new("thor").install
 require "toml"
+require "thor"
 
 module ClusterElement
   class Config
+    class Config
+      class Config < Thor
+        desc "show","print the configuration"
+        def show
+          ap ClusterElement::Config.sub ClusterElement::Config.dump
+        end
+        desc "reset","(re)set config to defaults"
+        def reset
+          ClusterElement::Config.store ClusterElement::Config.reset
+        end
+      end
+    end
     class << self
       private
       def method_missing method, *args, &block
@@ -25,7 +39,7 @@ module ClusterElement
           apks: %w{git docker bash ruby-dev rsync},
         },
         serf: {
-          cluster: "cluster",
+          cluster: "%private_ipv4_net_hash",
           query_timeout: "5s",
           initial_tags: {
             coreos: "true",
@@ -43,15 +57,15 @@ module ClusterElement
           metadata: %w{cetk=true}
         },
         locksmith:{
-          endpoint:"%self",
+          endpoint:"%etcd_self",
         },
         update:{
           reboot_strategy: "etcd-lock",
-          server: "%self",
-          group: "%serf"
+          server: "%etcd_self",
+          group: "%cluster"
         },
         flannel: {
-          etcd_endpoints: %w{%self},
+          etcd_endpoints: %w{%etcd_self},
           etcd_prefix: "/cetk/flannel/network/config",
           interface: "%private_ipv4",
           network: "10.10.0.0/16",
@@ -74,7 +88,7 @@ module ClusterElement
           announce: "%private_ipv4:4375"
         },
         swarm: {
-          token: "etcd://%self/cetk/swarm/nodes",
+          token: "etcd://%etcd_self/cetk/swarm/nodes",
           image: "swarm",
           port: 2375
         },
@@ -88,11 +102,11 @@ module ClusterElement
         },
         registry: {
           image: "registry:2",
-          hostname: "registry.%serf",
+          hostname: "registry.%cluster",
         },
         ssl: {
-          ca: %w{ca.%serf},
-          certificates: %w{registry.%serf interlock.%serf}
+          ca: %w{ca.%cluster},
+          certificates: %w{registry.%cluster interlock.%cluster}
         },
         zookeeper: {
           master: "/cetk/zookeeper/master",
@@ -155,6 +169,21 @@ module ClusterElement
       @config
     end
     private
+    def sub str
+      sub_strings = %w{%localhost %private_ipv4 %public_ipv4 %private_ipv4_net_hash %public_ipv4_net_hash %cluster %etcd_self}
+      sub_strings.each do |sub_string|
+        str = str.gsub(sub_string,var_of(sub_string))
+      end
+      str
+    end
+    def var_of var
+      case var
+      when "%localhost" then "127.0.0.1"
+      when "%private_ipv4" then ClusterElement::Network.private_ipv4
+      when "%public_ipv4"  then ClusterElement::Network.public_ipv4
+      else var
+      end
+    end
     def cfg_file
       "/etc/cetk/config.tml"
     end
