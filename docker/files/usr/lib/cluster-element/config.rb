@@ -189,6 +189,7 @@ module ClusterElement
       when "%private_ipv4" then ClusterElement::Network.private_ipv4
       when "%public_ipv4"  then ClusterElement::Network.public_ipv4
       when "%etcd_self"    then "127.0.0.1:2379"
+      when "%cluster"      then serf[:discover]
       else var
       end
     end
