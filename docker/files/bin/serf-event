@@ -11,5 +11,5 @@ end
 if is_serf_query? "etcd-discover-token"
   require "cluster-element/etcd"
   token = ClusterElement::Etcd.local_token
-  puts token if token
+  print token if token
 end
