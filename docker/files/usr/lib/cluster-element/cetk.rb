@@ -6,6 +6,11 @@ module ClusterElement
       def service
         ClusterElement::Cetk.service output:options[:output]
       end
+      desc "boot_script","CEtk Boot Script"
+      method_option :output, type: :string
+      def boot_script
+        ClusterElement::Cetk.boot_script output:options[:output]
+      end
     end
     ClusterElement::Cli.register Cetk, "cetk", "cetk [COMMAND]","Cluster Element toolkit commands"
     class << self
@@ -17,7 +22,7 @@ module ClusterElement
         [Unit]
         Description=Cluster Element toolkit (CEtk)
         [Service]
-        ExecStartPre=/opt/bin/cetk cmd link
+        ExecStartPre=/opt/bin/cetk cetk cmd link
         ExecStartPre=/opt/bin/cetk serf config --output /run/serf/serf.json
         ExecStartPre=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
         ExecStartPre=/usr/bin/systemctl start serf
@@ -30,6 +35,21 @@ module ClusterElement
         File.write output, service
       else
         puts service
+      end
+    end
+    def boot_script output:nil
+      script = <<-EO_CETK_BOOT_SCRIPT.strip_heredoc
+      #!/bin/bash
+      /opt/bin/cetk cetk service --output /etc/systemd/system/cetk.service
+      /usr/bin/systemctl daemon-reload
+      /usr/bin/systemctl start cetk
+      EO_CETK_BOOT_SCRIPT
+      if output
+        FileUtils.mkdir_p File.dirname output
+        File.write output, script        
+        File.chmod 0755, output
+      else
+        puts script
       end
     end
   end
