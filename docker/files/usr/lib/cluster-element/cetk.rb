@@ -23,9 +23,9 @@ module ClusterElement
         Description=Cluster Element toolkit (CEtk)
         [Service]
         ExecStartPre=/opt/bin/cetk cmd link
-        ExecStartPre=/opt/bin/cetk serf install --output /opt/bin/serf
-        ExecStartPre=/opt/bin/cetk serf config --output /run/serf/serf.json
-        ExecStartPre=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
+        ExecStartPre=/opt/bin/cetk serf install --output #{ClusterElement::Serf.bin_file}
+        ExecStartPre=/opt/bin/cetk serf config --output #{ClusterElement::Serf.config_file}
+        ExecStartPre=/opt/bin/cetk serf service --output #{ClusterElement::Serf.service_file}
         ExecStart=/usr/bin/systemctl daemon-reload
         ExecStartPost=/usr/bin/systemctl start serf
         [Install]
@@ -43,7 +43,7 @@ module ClusterElement
       #!/bin/bash
       exec >  >(systemd-cat -t "CEtk Boot")
       exec 2>&1
-      /opt/bin/cetk cetk service --output /etc/systemd/system/cetk.service
+      /opt/bin/cetk cetk service --output #{service_file}
       /usr/bin/systemctl daemon-reload
       /usr/bin/systemctl start cetk
       EO_CETK_BOOT_SCRIPT
@@ -54,6 +54,9 @@ module ClusterElement
       else
         puts script
       end
+    end
+    def service_file
+      "/etc/systemd/system/cetk.service"
     end
   end
 end

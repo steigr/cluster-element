@@ -24,7 +24,7 @@ module ClusterElement
     end
     def bin
       @bin ||= `which serf`.strip
-      @bin   = "/opt/bin/serf" if @bin.empty?
+      @bin   = bin_file if @bin.empty?
       puts "Serf-Bin: #{@bin}"
       @bin
     end
@@ -46,8 +46,8 @@ module ClusterElement
         [Unit]
         Description=Serf Cluster Discovery
         [Service]
-        ExecStartPre=/opt/bin/cetk serf config --output /etc/serf/serf.json
-        ExecStart=/opt/bin/serf agent -config-file=/etc/serf/serf.json
+        ExecStartPre=/opt/bin/cetk serf config --output #{config_file}
+        ExecStart=/opt/bin/serf agent -config-file=#{config_file}
       EO_SERF_UNIT
       if output
         FileUtils.mkdir_p File.dirname output
@@ -75,6 +75,15 @@ module ClusterElement
     end
     def discover
       Digest::MD5.hexdigest ClusterElement::Network.private_ipv4_net
+    end
+    def config_file
+      "/run/serf/serf.json"
+    end
+    def service_file
+      "/etc/systemd/system/serf.service"
+    end
+    def bin_file
+      "/opt/bin/serf"
     end
   end
 end
