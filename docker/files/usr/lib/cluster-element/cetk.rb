@@ -48,7 +48,7 @@ module ClusterElement
       /usr/bin/systemctl start cetk
       EO_CETK_BOOT_SCRIPT
       if output
-        FileUtils.mkdir_p File.dirname outputscre
+        FileUtils.mkdir_p File.dirname output
         File.write output, script        
         File.chmod 0755, output
       else
