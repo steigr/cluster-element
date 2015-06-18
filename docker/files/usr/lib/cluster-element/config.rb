@@ -4,6 +4,7 @@ Installer::Package::Gem.new("toml-rb").install
 Installer::Package::Gem.new("thor").install
 require "toml"
 require "thor"
+require "json"
 
 module ClusterElement
   class Config
