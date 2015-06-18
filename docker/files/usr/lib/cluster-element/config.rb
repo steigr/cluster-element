@@ -188,6 +188,7 @@ module ClusterElement
       when "%localhost" then "127.0.0.1"
       when "%private_ipv4" then ClusterElement::Network.private_ipv4
       when "%public_ipv4"  then ClusterElement::Network.public_ipv4
+      when "%etcd_self"    then "127.0.0.1:2379"
       else var
       end
     end
