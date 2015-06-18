@@ -21,6 +21,8 @@ module ClusterElement
         ExecStartPost=/opt/bin/cetk serf config --output /run/serf/serf.json
         ExecStartPost=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
         ExecStartPost=/usr/bin/systemctl start serf
+        [Install]
+        WantedBy=multi-user.target
       EO_CETK_SERVICE
       if output
         FileUtils.mkdir_p File.dirname output
