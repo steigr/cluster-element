@@ -1,3 +1,4 @@
+require "thor"
 module ClusterElement
   class Etcd
     class Etcd < Thor

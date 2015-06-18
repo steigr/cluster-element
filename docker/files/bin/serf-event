@@ -9,6 +9,6 @@ def is_serf_query? query
 end
 
 if is_serf_query? "etcd-discover-token"
-  require "cluster-element"
+  require "cluster-element/etcd"
   puts ClusterElement::Etcd.local_token
 end
