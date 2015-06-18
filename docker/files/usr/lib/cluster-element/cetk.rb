@@ -41,7 +41,7 @@ module ClusterElement
     def bootscript output:nil
       script = <<-EO_CETK_BOOT_SCRIPT.strip_heredoc
       #!/bin/bash
-      exec >  >(systemd-cat -i "CEtk Boot")
+      exec >  >(systemd-cat -t "CEtk Boot")
       exec 2>&1
       /opt/bin/cetk cetk service --output /etc/systemd/system/cetk.service
       /usr/bin/systemctl daemon-reload
