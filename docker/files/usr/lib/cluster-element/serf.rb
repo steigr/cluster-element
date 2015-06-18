@@ -64,7 +64,7 @@ module ClusterElement
         FileUtils.mkdir_p File.dirname output
         File.write output, config.to_json
       else
-        ap unit
+        ap config
       end
     end
     def discover
