@@ -2,9 +2,13 @@
 
 $LOAD_PATH << File.expand_path("$0/../usr/lib")
 
-if ENV["SERF_EVENT"] == "query"
-  if ENV["SERF_QUERY_NAME"] == "etcd-discover-token"
-    require "cluster-element"
-    puts ClusterElement::Etcd.local_token
-  end
+def is_serf_query? query
+  return false unless ENV["SERF_EVENT"] == "query"
+  return false unless ENV["SERF_QUERY_NAME"] == query
+  true
+end
+
+if is_serf_query? "etcd-discover-token"
+  require "cluster-element"
+  puts ClusterElement::Etcd.local_token
 end
