@@ -50,7 +50,9 @@ module ClusterElement
       /usr/bin/kill $(pidof sshd) 
       /usr/bin/systemctl start sshd.service
       /usr/bin/kill $(lsof -i :22 -Fp | cut -b2-) 2>/dev/null
+      /opt/bin/cetk etcd dropin --output #{ClusterElement::Etcd.dropin_file}
       /usr/bin/systemctl daemon-reload
+      /usr/bin/systemctl start etcd2
       EO_CETK_BOOT_SCRIPT
       if output
         FileUtils.mkdir_p File.dirname output
