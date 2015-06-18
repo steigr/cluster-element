@@ -22,7 +22,7 @@ cat <<EOLD > $0
 #!/bin/bash
 systemd-nspawn --directory=$EP --capability=all --share-system --user=root --quiet --bind=/home:/home --bind=/opt:/opt --bind=/run:/run --bind=/run:/var/run  --bind=/etc/systemd:/etc/systemd \$(basename \$0) "\$@"
 EOLD
-$EL cmd link
 }
 [[ -d "$EP" ]] || Load Load
 Install Install
+$0 $@
