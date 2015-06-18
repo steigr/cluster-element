@@ -7,6 +7,10 @@ module ClusterElement
         File.exists? uuid_file
         puts File.read(uuid_file).strip.downcase.gsub(/-/,'')
       end
+      desc "diverged","Provide Hostname based on static values"
+      def diverged
+        Digest::MD5.hexdigest(Macaddr.addr)[0..15]
+      end
     end
     ClusterElement::Cli.register Machine, "machine","machine [COMMAND]","Machine Information"
   end

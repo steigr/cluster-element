@@ -5,6 +5,7 @@ require "awesome_print"
 require "httparty"
 require "active_support/core_ext/string/strip"
 require "ipaddress"
+require "macaddr"
 
 require "cluster-element/config"
 require "cluster-element/cli"

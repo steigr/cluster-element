@@ -37,7 +37,7 @@ module ClusterElement
       exec >  >(systemd-cat -t "cetk")
       exec 2>&1
       echo "Set Hostname"
-      /opt/bin/cetk machine uuid > /etc/hostname
+      /opt/bin/cetk machine diverged > /etc/hostname
       /usr/bin/hostname -F /etc/hostname
       echo "Remap SSHd"
       /opt/bin/cetk ssh socket --output /etc/systemd/system/sshd.socket
