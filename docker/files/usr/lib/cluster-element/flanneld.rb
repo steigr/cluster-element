@@ -63,7 +63,6 @@ module ClusterElement
       token
     end
     def service_file
-      ""
       "/run/systemd/system/etcd2.service.d/20-cloudinit.conf"
     end
     def etcd_prefix
@@ -78,7 +77,7 @@ module ClusterElement
     end
     def config
       {
-        
+
       }
     end
   end
