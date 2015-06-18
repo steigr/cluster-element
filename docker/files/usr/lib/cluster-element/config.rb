@@ -7,16 +7,14 @@ require "thor"
 
 module ClusterElement
   class Config
-    class Config
-      class Config < Thor
-        desc "show","print the configuration"
-        def show
-          ap ClusterElement::Config.sub ClusterElement::Config.dump
-        end
-        desc "reset","(re)set config to defaults"
-        def reset
-          ClusterElement::Config.store ClusterElement::Config.reset
-        end
+    class Config < Thor
+      desc "show","print the configuration"
+      def show
+        ap ClusterElement::Config.sub ClusterElement::Config.dump
+      end
+      desc "reset","(re)set config to defaults"
+      def reset
+        ClusterElement::Config.store ClusterElement::Config.reset
       end
     end
     class << self
