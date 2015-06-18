@@ -17,10 +17,11 @@ module ClusterElement
         [Unit]
         Description=Cluster Element toolkit (CEtk)
         [Service]
-        ExecStart=/opt/bin/cetk cmd link
-        ExecStartPost=/opt/bin/cetk serf config --output /run/serf/serf.json
-        ExecStartPost=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
-        ExecStartPost=/usr/bin/systemctl start serf
+        ExecStartPre=/opt/bin/cetk cmd link
+        ExecStartPre=/opt/bin/cetk serf config --output /run/serf/serf.json
+        ExecStartPre=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
+        ExecStartPre=/usr/bin/systemctl start serf
+        ExecStart=/usr/bin/true
         [Install]
         WantedBy=multi-user.target
       EO_CETK_SERVICE
