@@ -203,6 +203,7 @@ module ClusterElement
       @config[:packages][:apks].collect{|name| Installer::Package::Apk.new name}
     end
     def method_missing method, *args, &block
+      puts "testing #{method}"
       JSON.parse(sub(@config[method].to_json),symbolize_names:true) if @config.keys.include? method
     end
   end
