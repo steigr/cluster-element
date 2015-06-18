@@ -12,8 +12,8 @@ module ClusterElement
     class Config < Thor
       desc "show","print the configuration"
       def show
-        ap ClusterElement::Config.dump.to_json
-        # ap JSON.parse(ClusterElement::Config.sub(ClusterElement::Config.dump.to_json),symbolize_names: true)
+        # ap ClusterElement::Config.dump.to_json
+        ap JSON.parse(ClusterElement::Config.sub(ClusterElement::Config.dump.to_json),symbolize_names: true)
       end
       desc "reset","(re)set config to defaults"
       def reset
@@ -179,7 +179,7 @@ module ClusterElement
     def sub str
       sub_strings = %w{%localhost %private_ipv4 %public_ipv4 %private_ipv4_net_hash %public_ipv4_net_hash %cluster %etcd_self}
       sub_strings.each do |sub_string|
-        str = str.gsub(sub_string,var_of(sub_string)) rescue sub_string
+        str = str.gsub(sub_string,var_of(sub_string)) rescue str
       end
       str
     end
