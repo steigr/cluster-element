@@ -58,6 +58,10 @@ module ClusterElement
       /opt/bin/cetk etcd dropin --output #{ClusterElement::Etcd.dropin_file}
       /usr/bin/systemctl daemon-reload
       /usr/bin/systemctl start etcd2
+      echo "Start Fleet"
+      /opt/bin/cetk fleet dropin --output #{ClusterElement::Fleet.dropin_file}
+      /usr/bin/systemctl daemon-reload
+      /usr/bin/systemctl start fleet
       EO_CETK_BOOT_SCRIPT
       if output
         FileUtils.mkdir_p File.dirname output
