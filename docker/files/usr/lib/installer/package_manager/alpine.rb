@@ -8,6 +8,7 @@ class Installer
       self.package.installer = self
       def install_package name
         unless is_installed? name
+          update
           `apk add #{name}`.strip
           packages << name
         end

@@ -15,9 +15,7 @@ class Installer
         self.class.package
       end
       def install name
-        update
         install_package name
-        self.class.package.new name
       end
     end
   end

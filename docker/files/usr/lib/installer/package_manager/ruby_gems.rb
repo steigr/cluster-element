@@ -8,6 +8,7 @@ class Installer
       self.package.installer = self
       def install_package name
         unless is_installed? name
+          update
           `#{cmd :install} #{name}`.strip
           Gem.clear_paths
           packages << name
