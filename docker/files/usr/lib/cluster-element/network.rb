@@ -4,12 +4,11 @@ module ClusterElement
       private def method_missing method, *args, &block; instance.send method, *args, &block; end
       private def instance; @instance ||= self.new; end
     end
-    PRIVATE_RE = /(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/
     def interfaces
       Socket.getifaddrs.collect{|iface| iface.name }.uniq
     end
-    def getaddrs iface
-      Socket.getifaddrs.select{|aiface|  aiface.name == iface }.collect{|aiface| aiface.addr }
+    def getaddrs *ifaces
+      Socket.getifaddrs.select{|iface| ifaces.flatten.include? iface.name }.collect{|iface| iface.addr }
     end
     def localhost
       "127.0.0.1"
@@ -18,10 +17,10 @@ module ClusterElement
       getaddrs(interfaces).select{|addr| addr.ipv4? }
     end
     def private_ipv4_addresses
-      ipv4_addresses.select{|addr| addr.ipv4_private? }
+      ipv4_addresses.select{|addr| addr.ipv4_private? }.map{|addr| addr.ip_address }
     end
     def public_ipv4_addresses
-      ipv4_addresses.select{|addr| not addr.ipv4_private? }
+      ipv4_addresses.select{|addr| not ( addr.ipv4_private? or addr.ipv4_loopback? )}.map{|addr| addr.ip_address }
     end
     def private_ipv4
       private_ipv4_addresses.first
