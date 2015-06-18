@@ -23,7 +23,7 @@ module ClusterElement
     end
     def bin
       @bin ||= `which serf`.strip
-      @bin   = "/bin/serf" if @bin.empty?
+      @bin   = "/opt/bin/serf" if @bin.empty?
       puts "Serf-Bin: #{@bin}"
       @bin
     end
