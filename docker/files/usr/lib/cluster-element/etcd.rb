@@ -41,8 +41,12 @@ module ClusterElement
     end
     def token
       @token ||= cluster_token
+      puts "Cluster: #{@token}"
       @token ||= local_token
+      puts "Local: #{@local_token}"
       @token ||= create_token
+      puts "Created: #{@create_token}"
+      @token
     end
     def cluster_token
       response = JSON.parse(`/opt/bin/serf query -format=json etcd-discover-token`,symbolize_names:true)
