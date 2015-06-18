@@ -12,7 +12,8 @@ module ClusterElement
     class Config < Thor
       desc "show","print the configuration"
       def show
-        ap JSON.parse(ClusterElement::Config.sub(ClusterElement::Config.dump.to_json),symbolize_names: true)
+        ap ClusterElement::Config.sub(ClusterElement::Config.dump.to_json
+        # ap JSON.parse(ClusterElement::Config.sub(ClusterElement::Config.dump.to_json),symbolize_names: true)
       end
       desc "reset","(re)set config to defaults"
       def reset
