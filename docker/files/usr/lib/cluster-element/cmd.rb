@@ -12,8 +12,10 @@ module ClusterElement
       private def instance; @instance ||= self.new; end
     end
     def link
+      trgt="#{basedir}/cetk"
+      exit 1 unless File.exists trgt
       %w{serf ruby pry gem irb}.each do |src|
-        FileUtils.symlink "#{basedir}/cetk", "#{basedir}/#{src}"
+        FileUtils.symlink trgt, "#{basedir}/#{src}"
       end
     end
     def basedir
