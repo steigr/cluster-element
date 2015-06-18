@@ -1,18 +1,19 @@
-require "thor"
 module ClusterElement
   class Etcd
-    class Etcd < Thor
-      desc "dropin","Build Cloud-Init Drop-In"
-      method_option :output, type: :string
-      def dropin
-        ClusterElement::Etcd.dropin output:options[:output]
+    if Object.const_defined? "ClusterElement::Cli"
+      class Etcd < Thor
+        desc "dropin","Build Cloud-Init Drop-In"
+        method_option :output, type: :string
+        def dropin
+          ClusterElement::Etcd.dropin output:options[:output]
+        end
+        desc "discover","Print Cluster Discover Token"
+        def discover
+          puts ClusterElement::Etcd.token
+        end
       end
-      desc "discover","Print Cluster Discover Token"
-      def discover
-        puts ClusterElement::Etcd.token
-      end
+      Cli.register Etcd, 'etcd','etcd [COMMAND]','Etcd DKV-Store'
     end
-    Cli.register Etcd, 'etcd','etcd [COMMAND]','Etcd DKV-Store'
     class << self
       private def method_missing method, *args, &block; instance.send method, *args, &block; end
       private def instance; @instance ||= self.new; end
