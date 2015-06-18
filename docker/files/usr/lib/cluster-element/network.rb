@@ -1,5 +1,9 @@
 module ClusterElement
   class Network
+    class << self
+      private def method_missing method, *args, &block; instance.send method, *args, &block; end
+      private def instance; @instance ||= self.new; end
+    end
     PRIVATE_RE = /(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/
     def interfaces
       Socket.getifaddrs.collect{|iface| iface.name }.uniq
