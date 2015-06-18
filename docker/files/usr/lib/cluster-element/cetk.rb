@@ -17,7 +17,7 @@ module ClusterElement
         [Unit]
         Descrption=Cluster Element toolkit (CEtk)
         [Service]
-        ExecStart=/opt/bin/cetk update
+        ExecStart=/opt/bin/cetk cmd link
         ExecStartPost=/opt/bin/cetk serf config --output /run/serf/serf.json
         ExecStartPost=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
         ExecStartPost=/usr/bin/systemctl start serf
