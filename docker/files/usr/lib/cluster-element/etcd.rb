@@ -47,17 +47,28 @@ module ClusterElement
     def cluster_token
       response = JSON.parse(`/opt/bin/serf query -format=json etcd-discover-token`,symbolize_names:true)
       return if response[:Responses].empty?
-      response[:Responses].to_a.first.last
+      token = response[:Responses].to_a.first.last
+      return if token.empty?
+      write_token token
+      token
     end
     def local_token
-      token_file = "/run/etcd/discover-token"
       File.read token_file if File.exists? token_file
     end
     def create_token
-      HTTParty.get "https://discovery.etcd.io/new?size=1"
+      token = HTTParty.get "https://discovery.etcd.io/new?size=1"
+      write_token token
+      token
     end
     def dropin_file
       "/run/systemd/system/etcd2.service.d/20-cloudinit.conf"
+    end
+    def token_file
+      "/run/etcd/discover-token"
+    end
+    def write_token token
+      FileUtils.mkdir_p File.dirname token_file
+      File.write token_file,token
     end
   end
 end
