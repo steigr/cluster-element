@@ -43,6 +43,8 @@ module ClusterElement
       #!/bin/bash
       exec >  >(systemd-cat -t "CEtk Boot")
       exec 2>&1
+      /opt/bin/cetk machine uuid > /etc/hostname
+      /usr/bin/hostname -F /etc/hostname
       /opt/bin/cetk cetk service --output #{service_file}
       /usr/bin/systemctl daemon-reload
       /usr/bin/systemctl start cetk
