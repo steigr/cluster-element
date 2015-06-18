@@ -34,11 +34,19 @@ module ClusterElement
     def bootscript output:nil
       script = <<-EO_CETK_BOOT_SCRIPT.strip_heredoc
       #!/bin/bash
-      exec >  >(systemd-cat -t "CEtk Boot")
+      exec >  >(systemd-cat -t "cetk")
       exec 2>&1
       echo "Set Hostname"
       /opt/bin/cetk machine uuid > /etc/hostname
       /usr/bin/hostname -F /etc/hostname
+      echo "Remap SSHd"
+      /opt/bin/cetk ssh socket --output /etc/systemd/system/sshd.socket
+      /usr/bin/systemctl daemon-reload
+      /usr/bin/systemctl enable sshd.socket
+      /usr/bin/systemctl stop sshd.service
+      /usr/bin/systemctl daemon-reload
+      /usr/bin/systemctl start sshd.service
+      /usr/bin/kill $(lsof -i :22 -Fp | cut -b2-) 2>/dev/null
       echo "Link embedded tools"
       /opt/bin/cetk cmd link
       echo "Start Serf"
@@ -46,14 +54,6 @@ module ClusterElement
       /opt/bin/cetk serf config --output #{ClusterElement::Serf.config_file}
       /opt/bin/cetk serf service --output #{ClusterElement::Serf.service_file}
       /usr/bin/systemctl start serf
-      echo "Remap SSHd"
-      /opt/bin/cetk ssh socket --output /etc/systemd/system/sshd.socket
-      /usr/bin/systemctl daemon-reload
-      /usr/bin/systemctl enable sshd.socket
-      /usr/bin/systemctl stop sshd.service
-      /usr/bin/systemctl daemon-reload
-      /usr/bin/kill $(lsof -i :22 -Fp | cut -b2-) 2>/dev/null
-      /usr/bin/systemctl start sshd.service
       echo "Start Etcd"
       /opt/bin/cetk etcd dropin --output #{ClusterElement::Etcd.dropin_file}
       /usr/bin/systemctl daemon-reload
