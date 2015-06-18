@@ -59,7 +59,9 @@ module ClusterElement
       token
     end
     def local_token
-      File.read(token_file).strip if File.exists? token_file
+      return unless File.exists? token_file
+      token = File.read(token_file).strip
+      token.empty? ? nil : token
     end
     def create_token
       token = HTTParty.get "https://discovery.etcd.io/new?size=1"
