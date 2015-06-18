@@ -22,14 +22,7 @@ module ClusterElement
         [Unit]
         Description=Cluster Element toolkit (CEtk)
         [Service]
-        ExecStartPre=/opt/bin/cetk cmd link
-        ExecStartPre=/opt/bin/cetk serf install --output #{ClusterElement::Serf.bin_file}
-        ExecStartPre=/opt/bin/cetk serf config --output #{ClusterElement::Serf.config_file}
-        ExecStartPre=/opt/bin/cetk serf service --output #{ClusterElement::Serf.service_file}
         ExecStart=/usr/bin/systemctl daemon-reload
-        ExecStartPost=/usr/bin/systemctl start serf
-        [Install]
-        WantedBy=multi-user.target
       EO_CETK_SERVICE
       if output
         FileUtils.mkdir_p File.dirname output
@@ -45,9 +38,12 @@ module ClusterElement
       exec 2>&1
       /opt/bin/cetk machine uuid > /etc/hostname
       /usr/bin/hostname -F /etc/hostname
-      /opt/bin/cetk cetk service --output #{service_file}
+      /opt/bin/cetk cmd link
+      /opt/bin/cetk serf install --output #{ClusterElement::Serf.bin_file}
+      /opt/bin/cetk serf config --output #{ClusterElement::Serf.config_file}
+      /opt/bin/cetk serf service --output #{ClusterElement::Serf.service_file}
+      /usr/bin/systemctl start serf
       /usr/bin/systemctl daemon-reload
-      /usr/bin/systemctl start cetk
       EO_CETK_BOOT_SCRIPT
       if output
         FileUtils.mkdir_p File.dirname output
