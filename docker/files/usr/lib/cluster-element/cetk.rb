@@ -23,6 +23,7 @@ module ClusterElement
         Description=Cluster Element toolkit (CEtk)
         [Service]
         ExecStartPre=/opt/bin/cetk cmd link
+        ExecStartPre=/opt/bin/cetk serf install --output /opt/bin/serf
         ExecStartPre=/opt/bin/cetk serf config --output /run/serf/serf.json
         ExecStartPre=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
         ExecStart=/usr/bin/systemctl daemon-reload

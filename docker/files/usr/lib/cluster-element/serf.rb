@@ -2,8 +2,9 @@ module ClusterElement
   class Serf
     class Serf < Thor
       desc "install","Download and Install Serf Binary"
+      method_option :output, type: :string
       def install
-        ClusterElement::Serf.install
+        ClusterElement::Serf.install output:options[:output]
       end
       desc "service","Build Systemd Service File"
       method_option :output, type: :string
@@ -34,10 +35,11 @@ module ClusterElement
     def url
       "https://dl.bintray.com/mitchellh/serf/#{version}_linux_amd64.zip"
     end
-    def install
+    def install output:nil
+      output ||= bin
       tz = "/tmp/#{SecureRandom.hex(4)}.zip"
       File.write(tz,HTTParty.get(url).body)
-      `unzip -d #{File.dirname bin} #{tz}`
+      `unzip -d #{File.dirname output} #{tz}`
     end
     def service output:nil
       unit = <<-EO_SERF_UNIT.strip_heredoc
