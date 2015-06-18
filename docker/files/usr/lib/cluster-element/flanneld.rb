@@ -76,5 +76,10 @@ module ClusterElement
       FileUtils.mkdir_p File.dirname token_file
       File.write token_file,token
     end
+    def config
+      {
+        
+      }
+    end
   end
 end

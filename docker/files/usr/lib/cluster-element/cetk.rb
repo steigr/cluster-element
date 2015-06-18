@@ -62,10 +62,10 @@ module ClusterElement
       /opt/bin/cetk fleet dropin --output #{ClusterElement::Fleet.dropin_file}
       /usr/bin/systemctl daemon-reload
       /usr/bin/systemctl start fleet
-      /opt/bin/cetk flanneld config | /usr/bin/etcdctl set #{ClusterElement::Flanneld.etcd_prefix}
-      /opt/bin/cetk flanneld service --output #{ClusterElement::Flanneld.service_file}
-      /usr/bin/fleetctl start #{ClusterElement::Flanneld.service_file}
       EO_CETK_BOOT_SCRIPT
+      # /opt/bin/cetk flanneld config | /usr/bin/etcdctl set #{ClusterElement::Flanneld.etcd_prefix}
+      # /opt/bin/cetk flanneld service --output #{ClusterElement::Flanneld.service_file}
+      # /usr/bin/fleetctl start #{ClusterElement::Flanneld.service_file}
       if output
         FileUtils.mkdir_p File.dirname output
         File.write output, script        
