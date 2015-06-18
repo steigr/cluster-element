@@ -189,7 +189,7 @@ module ClusterElement
       when "%private_ipv4" then ClusterElement::Network.private_ipv4
       when "%public_ipv4"  then ClusterElement::Network.public_ipv4
       when "%etcd_self"    then "127.0.0.1:2379"
-      when "%cluster"      then ClusterElement::Config.serf[:discover]
+      when "%cluster"      then @configp[:serf][:discover]
       else var
       end
     end
@@ -203,8 +203,7 @@ module ClusterElement
       @config[:packages][:apks].collect{|name| Installer::Package::Apk.new name}
     end
     def method_missing method, *args, &block
-      ap @config[method].to_json
-      # JSON.parse(sub(@config[method].to_json),symbolize_names:true) if @config.keys.include?(method)
+      JSON.parse(sub(@config[method].to_json),symbolize_names:true) if @config.keys.include?(method)
     end
   end
 end
