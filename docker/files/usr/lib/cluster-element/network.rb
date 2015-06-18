@@ -10,9 +10,6 @@ module ClusterElement
     def getaddrs *ifaces
       Socket.getifaddrs.select{|iface| ifaces.flatten.include? iface.name }.collect{|iface| iface.addr }
     end
-    def getnetmask iface
-      Socket.getifaddrs.select{|aiface| aiface == iface }.collect{|aiface| aiface.netmask.ip_address }.first
-    end
     def getiface addr
       Socket.getifaddrs.select{|aiface| aiface.addr.ip_address == addr rescue false }.first
     end
@@ -35,10 +32,10 @@ module ClusterElement
       public_ipv4_addresses.first
     end
     def public_ipv4_net
-      getnetmask(getiface(public_ipv4))
+      addr = IPAddress "#{private_ipv4}/#{getiface(public_ipv4).netmask.ip_address}"
     end
     def private_ipv4_net
-      getnetmask(getiface(private_ipv4))
+      addr = IPAddress "#{private_ipv4}/#{getiface(private_ipv4).netmask.ip_address}"
     end
   end
 end
