@@ -21,7 +21,7 @@ echo "$1 $BN"
 cat <<EOLD > $0
 #!/bin/bash
 [[ "\$USER" = "root" ]] || SUDO=sudo
-$SUDO systemd-nspawn --directory=$EP --capability=all --share-system --user=root --quiet --bind=/home:/home --bind=/opt:/opt --bind=/run:/run --bind=/run:/var/run  --bind=/etc/systemd:/etc/systemd \$(basename \$0) "\$@"
+\$SUDO systemd-nspawn --directory=$EP --capability=all --share-system --user=root --quiet --bind=/home:/home --bind=/opt:/opt --bind=/run:/run --bind=/run:/var/run  --bind=/etc/systemd:/etc/systemd \$(basename \$0) "\$@"
 EOLD
 }
 [[ -d "$EP" ]] || Load Load
