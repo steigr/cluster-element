@@ -41,12 +41,14 @@ module ClusterElement
     def bootscript output:nil
       script = <<-EO_CETK_BOOT_SCRIPT.strip_heredoc
       #!/bin/bash
+      exec >  >(systemd-cat -i "CEtk Boot")
+      exec 2>&1
       /opt/bin/cetk cetk service --output /etc/systemd/system/cetk.service
       /usr/bin/systemctl daemon-reload
       /usr/bin/systemctl start cetk
       EO_CETK_BOOT_SCRIPT
       if output
-        FileUtils.mkdir_p File.dirname output
+        FileUtils.mkdir_p File.dirname outputscre
         File.write output, script        
         File.chmod 0755, output
       else
