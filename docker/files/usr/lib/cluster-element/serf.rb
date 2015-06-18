@@ -53,7 +53,7 @@ module ClusterElement
         FileUtils.mkdir_p File.dirname output
         File.write output, unit
       else
-        ap unit
+        puts unit
       end
     end
     def config output:nil
@@ -70,7 +70,7 @@ module ClusterElement
         FileUtils.mkdir_p File.dirname output
         File.write output, config.to_json
       else
-        ap config
+        puts config
       end
     end
     def discover
