@@ -1,5 +1,6 @@
 require "installer"
 require "fileutils"
+Installer::Package::Apk.new("ruby-json").install
 Installer::Package::Gem.new("toml-rb").install
 Installer::Package::Gem.new("thor").install
 require "toml"
