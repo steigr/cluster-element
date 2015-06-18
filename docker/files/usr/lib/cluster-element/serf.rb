@@ -1,12 +1,14 @@
 module ClusterElement
   class Serf
     class Serf < Thor
-      desc "service","Build Systemd Service File"
-      def service
-      end
       desc "install","Download and Install Serf Binary"
       def install
         ClusterElement::Serf.install
+      end
+      desc "service","Build Systemd Service File"
+      method_option :output, type: :string
+      def service
+        ClusterElement::Serf.service output: options[:output]
       end
       desc "config","Create Serf Configuration"
       method_option :output, type: :string
@@ -21,7 +23,7 @@ module ClusterElement
     end
     def bin
       @bin ||= `which serf`.strip
-      @bin ||= "/bin/serf"
+      @bin   = "/bin/serf" if @bin.empty?
     end
     def version
       @version ||= `#{bin} version 2>/dev/null`.split("\n").select{|l|l =~ / v/}.join.scan(/v([0-9]+(\.[0-9]+)+)/).flatten.first
