@@ -8,7 +8,7 @@ module ClusterElement
       end
       desc "discover","Print Cluster Discover Token"
       def discover
-        ClusterElement::Etcd.token
+        puts ClusterElement::Etcd.token
       end
     end
     Cli.register Etcd, 'etcd','etcd [COMMAND]','Etcd DKV-Store'
@@ -41,12 +41,8 @@ module ClusterElement
     end
     def token
       @token ||= cluster_token
-      puts "Cluster: #{@token}"
       @token ||= local_token
-      puts "Local: #{@local_token}"
       @token ||= create_token
-      puts "Created: #{@token}"
-      @token
     end
     def cluster_token
       response = JSON.parse(`/opt/bin/serf query -format=json etcd-discover-token`,symbolize_names:true)
