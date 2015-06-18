@@ -41,7 +41,7 @@ module ClusterElement
         },
         serf: {
           version: "0.6.4",
-          discover: "%private_ipv4_net_hash",
+          discover: "%serf_cluster",
           query_timeout: "5s",
           initial_tags: {
             coreos: "true",
@@ -185,6 +185,7 @@ module ClusterElement
     end
     def var_of var
       case var
+      when "%serf_cluster"          then ClusterElement::Serf.discover
       when "%localhost"             then ClusterElement::Network.localhost
       when "%private_ipv4_net_hash" then ClusterElement::Network.private_ipv4_net
       when "%private_ipv4"          then ClusterElement::Network.private_ipv4

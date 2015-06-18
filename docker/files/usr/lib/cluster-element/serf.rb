@@ -67,5 +67,8 @@ module ClusterElement
         ap unit
       end
     end
+    def discover
+      Digest::MD5.hexdigest ClusterElement::Network.private_ipv4_net
+    end
   end
 end
