@@ -26,7 +26,7 @@ module ClusterElement
         FileUtils.mkdir_p File.dirname output
         File.write output, service
       else
-        ap service
+        puts service
       end
     end
   end
