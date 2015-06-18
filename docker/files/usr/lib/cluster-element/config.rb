@@ -177,7 +177,7 @@ module ClusterElement
     end
     private
     def sub str
-      sub_strings = %w{%localhost %private_ipv4 %public_ipv4 %private_ipv4_net_hash %public_ipv4_net_hash %cluster %etcd_self}
+      sub_strings = %w{%localhost %private_ipv4 %public_ipv4 %private_ipv4_net_hash %public_ipv4_net_hash %cluster %etcd_self %serf_cluster}
       sub_strings.each do |sub_string|
         str = str.gsub(sub_string,var_of(sub_string)) rescue str
       end
