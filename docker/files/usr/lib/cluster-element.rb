@@ -4,6 +4,7 @@ require "fileutils"
 require "awesome_print"
 require "httparty"
 require "active_support/core_ext/string/strip"
+require "ipaddress"
 
 require "cluster-element/config"
 require "cluster-element/cli"

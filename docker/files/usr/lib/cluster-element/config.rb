@@ -36,7 +36,7 @@ module ClusterElement
     def reset
       {
         packages: {
-          gems: %w{toml-rb pry thor awesome_print httparty activesupport},
+          gems: %w{toml-rb pry thor awesome_print httparty activesupport ipaddress},
           apks: %w{git docker bash ruby-dev rsync ruby-json},
         },
         serf: {
@@ -185,11 +185,13 @@ module ClusterElement
     end
     def var_of var
       case var
-      when "%localhost"    then ClusterElement::Network.localhost
-      when "%private_ipv4" then ClusterElement::Network.private_ipv4
-      when "%public_ipv4"  then ClusterElement::Network.public_ipv4
-      when "%etcd_self"    then "127.0.0.1:2379"
-      when "%cluster"      then var_of(@config[:serf][:discover])
+      when "%localhost"             then ClusterElement::Network.localhost
+      when "%private_ipv4_net_hash" then ClusterElement::Network.private_ipv4_net
+      when "%private_ipv4"          then ClusterElement::Network.private_ipv4
+      when "%public_ipv4_net_hash"  then ClusterElement::Network.public_ipv4_net
+      when "%public_ipv4"           then ClusterElement::Network.public_ipv4
+      when "%etcd_self"             then "127.0.0.1:2379"
+      when "%cluster"               then var_of(@config[:serf][:discover])
       else var
       end
     end
