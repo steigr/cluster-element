@@ -6,10 +6,10 @@ module ClusterElement
       def service
         ClusterElement::Cetk.service output:options[:output]
       end
-      desc "boot_script","CEtk Boot Script"
+      desc "bootscript","CEtk Boot Script"
       method_option :output, type: :string
-      def boot_script
-        ClusterElement::Cetk.boot_script output:options[:output]
+      def bootscript
+        ClusterElement::Cetk.bootscript output:options[:output]
       end
     end
     ClusterElement::Cli.register Cetk, "cetk", "cetk [COMMAND]","Cluster Element toolkit commands"
@@ -37,7 +37,7 @@ module ClusterElement
         puts service
       end
     end
-    def boot_script output:nil
+    def bootscript output:nil
       script = <<-EO_CETK_BOOT_SCRIPT.strip_heredoc
       #!/bin/bash
       /opt/bin/cetk cetk service --output /etc/systemd/system/cetk.service
