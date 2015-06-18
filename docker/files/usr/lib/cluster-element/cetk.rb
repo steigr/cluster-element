@@ -5,7 +5,7 @@ module ClusterElement
       method_option :output, type: :string
       def service
         ClusterElement::Cetk.service output:options[:output]
-      def
+      end
     end
     ClusterElement::Cli.register Cetk, "cetk", "cetk [COMMAND]","Cluster Element toolkit commands"
     class << self
