@@ -15,7 +15,7 @@ module ClusterElement
     def service output:nil
       service = <<-EO_CETK_SERVICE.strip_heredoc
         [Unit]
-        Descrption=Cluster Element toolkit (CEtk)
+        Description=Cluster Element toolkit (CEtk)
         [Service]
         ExecStart=/opt/bin/cetk cmd link
         ExecStartPost=/opt/bin/cetk serf config --output /run/serf/serf.json
