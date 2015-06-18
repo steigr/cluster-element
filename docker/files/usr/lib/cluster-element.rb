@@ -11,6 +11,7 @@ require "cluster-element/cli"
 
 begin
   require "cluster-element/cmd"
+  require "cluster-element/cetk"
   require "cluster-element/serf"
   require "cluster-element/etcd"
   require "cluster-element/fleet"
