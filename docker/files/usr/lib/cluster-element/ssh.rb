@@ -4,6 +4,7 @@ module ClusterElement
       desc "socket","CoreOS Systemd SSHd.socket"
       method_option :output, type: :string
       def socket
+        output = options[:output]
         socket = <<-EO_SSHD_SOCKET.strip_heredoc
         [Socket]
         ListenStream=2220
