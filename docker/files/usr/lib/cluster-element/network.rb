@@ -31,11 +31,14 @@ module ClusterElement
     def public_ipv4
       public_ipv4_addresses.first
     end
+    def net addr
+      "#{addr.network.address}/#{addr.network.prefix}"
+    end
     def public_ipv4_net
-      addr = IPAddress "#{private_ipv4}/#{getiface(public_ipv4).netmask.ip_address}"
+      net(IPAddress("#{public_ipv4}/#{getiface(public_ipv4).netmask.ip_address}"))
     end
     def private_ipv4_net
-      addr = IPAddress "#{private_ipv4}/#{getiface(private_ipv4).netmask.ip_address}"
+      net(IPAddress("#{private_ipv4}/#{getiface(private_ipv4).netmask.ip_address}"))
     end
   end
 end
