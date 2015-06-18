@@ -36,7 +36,7 @@ module ClusterElement
     def reset
       {
         packages: {
-          gems: %w{toml-rb pry thor awesome_print httparty activesupport ipaddress},
+          gems: %w{toml-rb pry thor awesome_print httparty activesupport ipaddress macaddr},
           apks: %w{git docker bash ruby-dev rsync ruby-json},
         },
         serf: {
