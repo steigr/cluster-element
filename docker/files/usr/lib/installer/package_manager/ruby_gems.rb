@@ -10,11 +10,15 @@ class Installer
         unless is_installed? name
           `#{cmd :install} #{name}`.strip
           Gem.clear_paths
+          packages << name
         end
         package.new name
       end
       def is_installed? name
-        not `gem list -q #{name}`.strip.empty?
+        packages.include? name
+      end
+      def packages
+        @packages ||= `gem list -q`.strip.split("\n").map{|g|g.sub(/ \(.*/,'')}
       end
       private
       def cmd op

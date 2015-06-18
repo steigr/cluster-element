@@ -7,11 +7,17 @@ class Installer
       self.package = Installer::Package::Apk
       self.package.installer = self
       def install_package name
-        `apk add #{name}`.strip  unless is_installed? name
+        unless is_installed? name
+          `apk add #{name}`.strip
+          packages << name
+        end
         package.new name
       end
       def is_installed? name
-        `apk info` =~ /^#{name}$/
+        packages.include? name
+      end
+      def packages
+        @packags ||= `apk info`.strip.split("\n")
       end
       private
       def update
