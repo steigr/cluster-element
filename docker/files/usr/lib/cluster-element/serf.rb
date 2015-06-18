@@ -24,6 +24,8 @@ module ClusterElement
     def bin
       @bin ||= `which serf`.strip
       @bin   = "/bin/serf" if @bin.empty?
+      puts "Serf-Bin: #{@bin}"
+      @bin
     end
     def version
       @version ||= `#{bin} version 2>/dev/null`.split("\n").select{|l|l =~ / v/}.join.scan(/v([0-9]+(\.[0-9]+)+)/).flatten.first
