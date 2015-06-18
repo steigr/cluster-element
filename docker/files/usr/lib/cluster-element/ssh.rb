@@ -14,7 +14,7 @@ module ClusterElement
           FileUtils.mkdir_p File.dirname output
           File.write output, socket
         else
-          puts output
+          puts socket
         end
       end
     end
