@@ -11,7 +11,7 @@ module ClusterElement
       Socket.getifaddrs.select{|iface| ifaces.flatten.include? iface.name }.collect{|iface| iface.addr }
     end
     def getnetmask iface
-      Socket.getifaddrs.select{|aiface| aiface.name == iface }.collect{|aiface| aiface.netmask.ip_address }.first
+      Socket.getifaddrs.select{|aiface| aiface == iface }.collect{|aiface| aiface.netmask.ip_address }.first
     end
     def getiface addr
       Socket.getifaddrs.select{|aiface| aiface.addr.ip_address == addr rescue false }.first
