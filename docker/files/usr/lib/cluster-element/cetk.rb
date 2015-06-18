@@ -25,8 +25,8 @@ module ClusterElement
         ExecStartPre=/opt/bin/cetk cmd link
         ExecStartPre=/opt/bin/cetk serf config --output /run/serf/serf.json
         ExecStartPre=/opt/bin/cetk serf service --output /etc/systemd/system/serf.service
-        ExecStartPre=/usr/bin/systemctl start serf
-        ExecStart=/usr/bin/true
+        ExecStart=/usr/bin/systemctl daemon-reload
+        ExecStartPost=/usr/bin/systemctl start serf
         [Install]
         WantedBy=multi-user.target
       EO_CETK_SERVICE
