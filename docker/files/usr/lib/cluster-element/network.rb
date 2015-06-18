@@ -14,7 +14,7 @@ module ClusterElement
       Socket.getifaddrs.select{|aiface| aiface.name == aiface }.collect{|aiface| aiface.netmask.addr.ip_address }.first
     end
     def getiface addr
-      Socket.getifaddrs.select{|aiface| aiface.addr.ip_address == addr }.first
+      Socket.getifaddrs.select{|aiface| aiface.addr.ip_address == addr rescue false }.first
     end
     def localhost
       "127.0.0.1"
