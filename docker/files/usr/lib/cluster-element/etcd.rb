@@ -45,7 +45,7 @@ module ClusterElement
       @token ||= local_token
       puts "Local: #{@local_token}"
       @token ||= create_token
-      puts "Created: #{token}"
+      puts "Created: #{@token}"
       @token
     end
     def cluster_token
