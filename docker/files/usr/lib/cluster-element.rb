@@ -17,6 +17,7 @@ begin
   require "cluster-element/fleet"
   require "cluster-element/network"
   require "cluster-element/machine"
+  require "cluster-element/ssh"
   require "cluster-element/check"
 rescue
   puts "Subcommands cannot be loaded, run 'cetk update' to fix this issue"
