@@ -44,10 +44,12 @@ module ClusterElement
       /opt/bin/cetk serf service --output #{ClusterElement::Serf.service_file}
       /usr/bin/systemctl start serf
       /opt/bin/cetk ssh socket --output /etc/systemd/system/sshd.socket
+      /usr/bin/systemctl daemon-reload
       /usr/bin/systemctl stop sshd.service
       /usr/bin/systemctl enable sshd.socket
       /usr/bin/kill $(pidof sshd) 
       /usr/bin/systemctl start sshd.service
+      /usr/bin/kill $(lsof -i :22 -Fp | cut -b2-) 2>/dev/null
       /usr/bin/systemctl daemon-reload
       EO_CETK_BOOT_SCRIPT
       if output
