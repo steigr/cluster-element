@@ -15,7 +15,7 @@ module ClusterElement
       trgt="#{basedir}/cetk"
       exit 1 unless File.exists? trgt
       %w{serf ruby pry gem irb}.each do |src|
-        FileUtils.symlink trgt, "#{basedir}/#{src}"
+        FileUtils.symlink trgt, "#{basedir}/#{src}" unless File.exists? "#{basedir}/#{src}"
       end
     end
     def basedir
