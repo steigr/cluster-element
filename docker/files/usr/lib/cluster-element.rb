@@ -2,6 +2,8 @@ require "thor"
 require "securerandom"
 require "fileutils"
 require "awesome_print"
+require "httparty"
+require "active_support/core_ext/string/strip"
 
 require "cluster-element/config"
 require "cluster-element/cli"

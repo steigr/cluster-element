@@ -35,15 +35,21 @@ module ClusterElement
     def reset
       {
         packages: {
-          gems: %w{toml-rb pry thor awesome_print},
-          apks: %w{git docker bash ruby-dev rsync},
+          gems: %w{toml-rb pry thor awesome_print httparty activesupport},
+          apks: %w{git docker bash ruby-dev rsync ruby-json},
         },
         serf: {
-          cluster: "%private_ipv4_net_hash",
+          version: "0.6.4",
+          discover: "%private_ipv4_net_hash",
           query_timeout: "5s",
           initial_tags: {
             coreos: "true",
-          }
+          },
+          event_handlers: %w{/opt/bin/serf-event},
+          log_level: :debug,
+          snapshot_path: "/var/lib/serf",
+          leave_on_terminate: true,
+          rejoin_after_leave: true,
         },
         etcd: {
           master: "/cetk/etcd/master",
@@ -194,7 +200,7 @@ module ClusterElement
       @config[:packages][:apks].collect{|name| Installer::Package::Apk.new name}
     end
     def method_missing method, *args, &block
-      @config[method] if @config.keys.include? method
+      JSON.parse(sub(@config[method].to_json),symbolize_names:true) if @config.keys.include? method
     end
   end
 end
